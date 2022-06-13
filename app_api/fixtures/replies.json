@@ -1,0 +1,22 @@
+[
+  {
+    "model": "app_api.reply",
+    "pk": 1,
+    "fields": {
+      "post": 1,
+      "respondent": 1,
+      "content": "I like your stuff and things.",
+      "created_on": "2022-01-04"
+    }
+  },
+  {
+    "model": "app_api.reply",
+    "pk": 2,
+    "fields": {
+      "post": 2,
+      "respondent": 2,
+      "content": "I like your stuff and things.",
+      "created_on": "2022-01-04"
+    }
+  }
+]

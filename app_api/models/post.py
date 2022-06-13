@@ -8,6 +8,6 @@ class Post(models.Model):
     body = models.TextField()
     tags = models.ManyToManyField(
         'ZASUser',
-        through='postTag',
+        through='AtTag',
         related_name='posts'
     )
