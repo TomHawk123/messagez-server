@@ -1,0 +1,24 @@
+[
+  {
+    "model": "app_api.post",
+    "pk": 1,
+    "fields": {
+      "author": 1,
+      "title": "This is a first title",
+      "created_on": "2022-01-09",
+      "body": "This is the body section of the post.",
+      "tags": [1]
+    }
+  },
+  {
+    "model": "app_api.post",
+    "pk": 2,
+    "fields": {
+      "author": 2,
+      "title": "This is a second title",
+      "created_on": "2022-06-09",
+      "body": "This is the body section of the post.",
+      "tags": [1,2]
+    }
+  }
+]

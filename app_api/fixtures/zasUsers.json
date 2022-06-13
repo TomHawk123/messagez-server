@@ -1,0 +1,22 @@
+[
+  {
+    "model": "app_api.ZASUser",
+    "pk": 1,
+    "fields": {
+      "name": "Barry Barry, quite contrary",
+      "bio": "I love games.",
+      "created_on": "2022-05-13",
+      "user": 1
+    }
+  },
+  {
+    "model": "app_api.ZASUser",
+    "pk": 2,
+    "fields": {
+      "name": "Matthew McMorries",
+      "bio": "I am in charge.",
+      "created_on": "2022-09-13",
+      "user": 2
+    }
+  }
+]
