@@ -19,10 +19,15 @@ from app_api.views import register_user, login_user
 from django.conf.urls import include
 from rest_framework import routers
 # from app_api.views.* import *View
+from app_api.views import ZASUserView
+from app_api.views.posts import PostView
 
 router = routers.DefaultRouter(trailing_slash=False)
 
 # router.register(r'<urlRoute>', *View, '<tableName>')
+router.register(r'users', ZASUserView, 'ZASUser')
+router.register(r'posts', PostView, 'post')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
