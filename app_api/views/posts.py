@@ -11,7 +11,7 @@ class PostView(ViewSet):
     """View for handling Post requests"""
 
     def retrieve(self, request, pk):
-        """PUT method handler"""
+        """GET method handler for single object"""
         try:
             post = Post.objects.get(pk=pk)
             serializer = PostSerializer(post)

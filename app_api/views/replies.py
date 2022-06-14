@@ -3,66 +3,66 @@ from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from app_api.models.message import Message
 from app_api.models.zas_user import ZASUser
+from app_api.models.reply import Reply
+from app_api.models.post import Post
 
 
-class MessageView(ViewSet):
-    """View for handling Message requests"""
+class ReplyView(ViewSet):
+    """View for handling Reply Requests"""
 
     def retrieve(self, request, pk):
         """GET method handler to receive single object"""
         try:
-            message = Message.objects.get(pk=pk)
-            serializer = MessageSerializer(message)
+            reply = Reply.objects.get(pk=pk)
+            serializer = ReplySerializer(reply)
             return Response(serializer.data)
-        except Message.DoesNotExist as ex:
+        except Reply.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
     def list(self, request):
-        """GET method handler to receive all objects"""
-        messages = Message.objects.all()
-        serializer = MessageSerializer(messages, many=True)
+        """GET method handler to list all objects"""
+        replies = Reply.objects.all()
+        serializer = ReplySerializer(replies, many=True)
         return Response(serializer.data)
 
     def create(self, request):
         """POST request handler"""
-        sender = ZASUser.objects.get(user=request.auth.user)
         # data is a dict, must us bracket notation.
         # to filter the user object, use dunder in syntax below.
         # WHERE username=username in data dict ("filter")
-        recipient = ZASUser.objects.get(
-            user__username=request.data['username'])
-        serializer = CreateMessageSerializer(data=request.data)
+        respondent = ZASUser.objects.get(user=request.auth.user)
+        serializer = CreateReplySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(sender=sender, recipient=recipient)
+        serializer.save(respondent=respondent)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def destroy(self, request, pk):
         """DELETE request handler"""
-        message = Message.objects.get(pk=pk)
-        message.delete()
+        reply = Reply.objects.get(pk=pk)
+        reply.delete()
         return Response(None, status=status.HTTP_204_NO_CONTENT)
 
 
-class MessageSerializer(serializers.ModelSerializer):
-    """JSON serializer for Messages"""
+class ReplySerializer(serializers.ModelSerializer):
+    """JSON serializer for GET replies"""
     class Meta:
-        model = Message
+        model = Reply
         fields = (
             'id',
-            'sender',
+            'post',
+            'respondent',
             'content',
-            'recipient',
             'created_on'
         )
 
 
-class CreateMessageSerializer(serializers.ModelSerializer):
-    """JSON serializer for Messages"""
+class CreateReplySerializer(serializers.ModelSerializer):
+    """JSON Serializer for POST and PUT replies"""
     class Meta:
-        model = Message
+        model = Reply
         fields = (
+            'post',
             'content',
             'created_on'
         )
