@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from rest_framework import serializers, status
 from app_api.models.zas_user import ZASUser
 from app_api.models.post import Post
-from app_api.views.zas_users import ZASUserSerializer
 
 
 class PostView(ViewSet):
@@ -35,7 +34,7 @@ class PostView(ViewSet):
         post = Post.objects.get(pk=serializer.data['id'])
         post.tags.add(*request.data['tags'])
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-      
+
     def destroy(self, request, pk):
         """DELETE request handler for Post"""
         post = Post.objects.get(pk=pk)

@@ -21,13 +21,14 @@ from rest_framework import routers
 # from app_api.views.* import *View
 from app_api.views import ZASUserView
 from app_api.views.posts import PostView
+from app_api.views import MessageView
 
 router = routers.DefaultRouter(trailing_slash=False)
 
 # router.register(r'<urlRoute>', *View, '<tableName>')
 router.register(r'users', ZASUserView, 'ZASUser')
 router.register(r'posts', PostView, 'post')
-
+router.register(r'messages', MessageView, 'message')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
