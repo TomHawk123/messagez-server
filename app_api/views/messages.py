@@ -1,10 +1,13 @@
 """View module for handling requests about zas_users"""
 from django.http import HttpResponseServerError
+from django.db.models import Q
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
+from rest_framework.decorators import action
 from app_api.models.message import Message
 from app_api.models.zas_user import ZASUser
+
 
 
 class MessageView(ViewSet):
@@ -44,6 +47,12 @@ class MessageView(ViewSet):
         message.delete()
         return Response(None, status=status.HTTP_204_NO_CONTENT)
 
+    @action(methods=['get'], detail=False)
+    def inbox(self, request):
+        """GET messages for a signed in user"""
+        messages = Message.objects.filter(Q(sender=request.auth.user.id) | Q(recipient=request.auth.user.id))
+        serializer = MessageSerializer(messages, many=True)
+        return Response(serializer.data)
 
 class MessageSerializer(serializers.ModelSerializer):
     """JSON serializer for Messages"""
