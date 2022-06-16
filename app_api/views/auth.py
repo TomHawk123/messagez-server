@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
+from app_api.models import ZASUser
 
 
 @api_view(['POST'])
@@ -25,7 +26,8 @@ def login_user(request):
         # TODO: If you need to return more information to the client, update the data dict
         data = {
             'valid': True,
-            'token': token.key
+            'token': token.key,
+            'userId': token.user_id
         }
     else:
         data = { 'valid': False }
@@ -46,11 +48,20 @@ def register_user(request):
         password=request.data['password'],
     )
 
-    # TODO: If you're using a model with a 1 to 1 relationship to the django user, create that object here
-
+    # If you're using a model with a 1 to 1 relationship to the django user, create that object here
+    ZasUser = ZASUser.objects.create(
+        name=request.data['name'],
+        title=request.data['title'],
+        bio=request.data['bio'],
+        user=new_user        
+    )
     
     token = Token.objects.create(user=new_user)
     # TODO: If you need to send the client more information update the data dict
     
-    data = { 'token': token.key }
+    data = { 
+            'valid': True,
+            'token': token.key,
+            'userId': token.user_id
+            }
     return Response(data, status=status.HTTP_201_CREATED)

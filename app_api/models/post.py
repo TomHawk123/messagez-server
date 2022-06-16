@@ -11,3 +11,12 @@ class Post(models.Model):
         through='AtTag',
         related_name='posts'
     )
+
+    @property
+    def tagged(self):
+        """creates "tagged" property for Post objects that have tagged users on them"""
+        return self.__tagged
+
+    @tagged.setter
+    def tagged(self, value):
+        self.__tagged = value

@@ -14,7 +14,7 @@ class PostView(ViewSet):
         """GET method handler for single object"""
         try:
             post = Post.objects.get(pk=pk)
-            serializer = PostSerializer(post)
+            serializer = RepliesByPostSerializer(post)
             return Response(serializer.data)
         except Post.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
@@ -59,6 +59,21 @@ class PostSerializer(serializers.ModelSerializer):
         )
 
 
+class RepliesByPostSerializer(serializers.ModelSerializer):
+    """JSON serializer to get a single Post with all Replies that share a fk"""
+    class Meta:
+        model = Post
+        fields = (
+            'id',
+            'author',
+            'title',
+            'created_on',
+            'body',
+            'tags',
+            'replies'
+        )
+
+
 class CreatePostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
@@ -67,4 +82,5 @@ class CreatePostSerializer(serializers.ModelSerializer):
             'title',
             'created_on',
             'body',
-            'tags')
+            'tags',
+            'tagged')
