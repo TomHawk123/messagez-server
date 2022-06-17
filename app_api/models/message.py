@@ -5,3 +5,5 @@ class Message(models.Model):
     content = models.CharField(max_length=1000)
     recipient = models.ForeignKey("ZASUser", on_delete=models.CASCADE)
     created_on = models.DateField(auto_now=True)
+    subject = models.CharField(max_length=1000, default="default")
+

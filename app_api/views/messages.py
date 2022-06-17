@@ -9,7 +9,6 @@ from app_api.models.message import Message
 from app_api.models.zas_user import ZASUser
 
 
-
 class MessageView(ViewSet):
     """View for handling Message requests"""
 
@@ -35,7 +34,8 @@ class MessageView(ViewSet):
         # to filter the user object, use dunder in syntax below.
         # WHERE username=username in data dict ("filter")
         recipient = ZASUser.objects.get(
-            user__username=request.data['username'])
+            user__id=request.data['recipient'])
+        # get from 
         serializer = CreateMessageSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(sender=sender, recipient=recipient)
@@ -50,9 +50,11 @@ class MessageView(ViewSet):
     @action(methods=['get'], detail=False)
     def inbox(self, request):
         """GET messages for a signed in user"""
-        messages = Message.objects.filter(Q(sender=request.auth.user.id) | Q(recipient=request.auth.user.id))
+        messages = Message.objects.filter(
+            Q(sender=request.auth.user.id) | Q(recipient=request.auth.user.id))
         serializer = MessageSerializer(messages, many=True)
         return Response(serializer.data)
+
 
 class MessageSerializer(serializers.ModelSerializer):
     """JSON serializer for Messages"""
@@ -63,7 +65,8 @@ class MessageSerializer(serializers.ModelSerializer):
             'sender',
             'content',
             'recipient',
-            'created_on'
+            'created_on',
+            'subject'
         )
 
 
@@ -72,6 +75,7 @@ class CreateMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = (
+            'subject',
             'content',
-            'created_on'
+            'recipient'
         )

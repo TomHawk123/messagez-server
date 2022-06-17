@@ -3,7 +3,6 @@ from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from rest_framework.decorators import action
 from app_api.models.zas_user import ZASUser
 from app_api.models.reply import Reply
 from app_api.models.post import Post
@@ -64,6 +63,5 @@ class CreateReplySerializer(serializers.ModelSerializer):
         model = Reply
         fields = (
             'post',
-            'content',
-            'created_on'
-        )
+            'content'
+            )

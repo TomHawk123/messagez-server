@@ -6,7 +6,8 @@
       "sender": 1,
       "content": "I like your stuff and things v1.",
       "recipient": 1,
-      "created_on": "2022-01-04"
+      "created_on": "2022-01-04",
+      "subject": "Subject 1"
     }
   },
   {
@@ -16,7 +17,8 @@
       "sender": 2,
       "content": "I like your stuff and things v2.",
       "recipient": 1,
-      "created_on": "2022-06-04"
+      "created_on": "2022-06-04",
+      "subject": "Subject 2"
     }
   }
 ]
