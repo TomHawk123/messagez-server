@@ -36,6 +36,14 @@ class PostView(ViewSet):
         post.tags.add(*request.data['tags'])
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    def update(self, request, pk):
+        """PUT request handler for single post"""
+        post = Post.objects.get(pk=pk)
+        serializer = UpdatePostSerializer(post, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+
     def destroy(self, request, pk):
         """DELETE request handler for Post"""
         post = Post.objects.get(pk=pk)
@@ -86,3 +94,12 @@ class CreatePostSerializer(serializers.ModelSerializer):
             'body',
             'tags',
             'tagged')
+
+
+class UpdatePostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = (
+            'title',
+            'body'
+        )
