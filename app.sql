@@ -16,3 +16,6 @@ WHERE id = 4
 UPDATE app_api_attag
 SET post_id = 2
 WHERE post_id =8
+
+DELETE FROM app_api_post
+WHERE id = 12
