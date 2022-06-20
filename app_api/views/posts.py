@@ -66,6 +66,7 @@ class PostSerializer(serializers.ModelSerializer):
             'body',
             'tags'
         )
+        depth=1
 
 
 class RepliesByPostSerializer(serializers.ModelSerializer):

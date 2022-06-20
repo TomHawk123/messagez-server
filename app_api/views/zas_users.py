@@ -13,7 +13,7 @@ class ZASUserView(ViewSet):
         """retrieve single ZASUser object"""
         try:
             zas_user = ZASUser.objects.get(pk=pk)
-            serializer = ZASUserSerializer(zas_user)
+            serializer = ZASUserNameSerializer(zas_user)
             return Response(serializer.data)
         except ZASUser.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
@@ -62,4 +62,13 @@ class CreateZASUserSerializer(serializers.ModelSerializer):
             'title',
             'bio',
             'created_on'
+        )
+
+class ZASUserNameSerializer(serializers.ModelSerializer):
+    """JSON serializer for listing, retrieving, and deleting ZASUser"""
+    class Meta:
+        model = ZASUser
+        fields = (
+            'id',
+            'name'
         )
